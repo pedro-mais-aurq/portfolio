@@ -1,0 +1,204 @@
+---
+import whatsappImg from "../../assets/characters/contato-whatsapp.webp";
+import emailImg from "../../assets/characters/contato-email.webp";
+import instagramImg from "../../assets/characters/contato-instagram.webp";
+import { Image } from "astro:assets";
+
+// Dados extraídos do rodapé do material de referência — não inventados.
+// O link do WhatsApp assume DDI 55 a partir do número exibido (31) 98248-1194; confirmar com o cliente.
+const channels = [
+  {
+    id: "whatsapp",
+    number: "01",
+    label: "WhatsApp",
+    href: "https://wa.me/5531982481194",
+    image: whatsappImg,
+    alt: "Personagem em traço apontando diretamente para o ícone do WhatsApp",
+    action: "aponta para o ícone",
+  },
+  {
+    id: "email",
+    number: "02",
+    label: "E-mail",
+    href: "mailto:nerescode@gmail.com",
+    image: emailImg,
+    alt: "Personagem em traço em pose de luta contra o envelope de e-mail",
+    action: "enfrenta o envelope",
+  },
+  {
+    id: "instagram",
+    number: "03",
+    label: "Instagram",
+    href: "https://instagram.com/neres.web",
+    image: instagramImg,
+    alt: "Personagem em traço caminhando fisicamente sobre o ícone do Instagram",
+    action: "caminha sobre o ícone",
+  },
+];
+---
+
+<section id="contato" class="contato" aria-labelledby="contato-title">
+  <div class="grid-shell">
+    <div class="contato__header panel">
+      <p class="chapter-label">
+        <span>CHAPTER #04</span>
+      </p>
+      <h2 id="contato-title" class="contato__title">Contato</h2>
+      <p class="contato__title-jp jp">接触</p>
+    </div>
+  </div>
+
+  <ul class="contato__grid" role="list">
+    {
+      channels.map((c) => (
+        <li class={`contato__panel contato__panel--${c.id}`}>
+          <a class="contato__link" href={c.href} target={c.id !== "email" ? "_blank" : undefined} rel={c.id !== "email" ? "noopener noreferrer" : undefined}>
+            <span class="visually-hidden">
+              {c.label} de Pedro Neres — o personagem {c.action}
+            </span>
+            <div class="contato__figure" aria-hidden="true">
+              <Image src={c.image} alt="" width={400} height={400} loading="lazy" />
+            </div>
+            <div class="contato__label-row" aria-hidden="true">
+              <span class="contato__number">{c.number}</span>
+              <span class="contato__name">{c.label}</span>
+            </div>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .contato {
+    padding-block: var(--space-7);
+    border-bottom: var(--border-hairline);
+  }
+
+  .contato__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .contato__title {
+    font-size: var(--step-h2);
+  }
+
+  .contato__title-jp {
+    color: var(--ink-soft);
+  }
+
+  .contato__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--hairline);
+    border-top: var(--border-hairline);
+    border-bottom: var(--border-hairline);
+  }
+
+  .contato__panel {
+    background: var(--paper);
+  }
+
+  .contato__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .contato__figure {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-5);
+    filter: grayscale(1);
+    transition: filter 0.2s ease;
+  }
+
+  .contato__figure :global(img) {
+    max-height: 100%;
+    width: auto;
+  }
+
+  .contato__label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3);
+    border-top: var(--border-hairline);
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .contato__number {
+    font-size: var(--step-caption);
+    color: var(--ink-soft);
+  }
+
+  .contato__name {
+    font-size: var(--step-body);
+    transition: color 0.2s ease;
+  }
+
+  /* Estados de cor — disponíveis por hover E foco (teclado) */
+  .contato__panel--whatsapp .contato__link:hover .contato__figure,
+  .contato__panel--whatsapp .contato__link:focus-visible .contato__figure {
+    filter: grayscale(0) sepia(0.4) hue-rotate(70deg) saturate(3);
+  }
+  .contato__panel--whatsapp .contato__link:hover .contato__name,
+  .contato__panel--whatsapp .contato__link:focus-visible .contato__name {
+    color: var(--whatsapp);
+  }
+
+  .contato__panel--email .contato__link:hover .contato__figure,
+  .contato__panel--email .contato__link:focus-visible .contato__figure {
+    filter: grayscale(0) sepia(0.5) hue-rotate(-30deg) saturate(4);
+  }
+  .contato__panel--email .contato__link:hover .contato__name,
+  .contato__panel--email .contato__link:focus-visible .contato__name {
+    color: var(--email-accent);
+  }
+
+  .contato__panel--instagram .contato__link:hover .contato__figure,
+  .contato__panel--instagram .contato__link:focus-visible .contato__figure {
+    filter: grayscale(0) saturate(1.4);
+  }
+  .contato__panel--instagram .contato__link:hover .contato__name,
+  .contato__panel--instagram .contato__link:focus-visible .contato__name {
+    background: linear-gradient(
+      100deg,
+      var(--instagram-1),
+      var(--instagram-2),
+      var(--instagram-3)
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .contato__link:hover .contato__figure,
+  .contato__link:focus-visible .contato__figure {
+    transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contato__link:hover .contato__figure,
+    .contato__link:focus-visible .contato__figure {
+      transform: none;
+    }
+  }
+
+  @media (min-width: 700px) {
+    .contato__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

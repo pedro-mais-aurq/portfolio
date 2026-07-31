@@ -1,0 +1,132 @@
+---
+interface Service {
+  kicker: string;
+  title: string;
+  description: string;
+  tools: string[];
+}
+
+const services: Service[] = [
+  {
+    kicker: "Especialidade Principal",
+    title: "Design de Web Sites",
+    description:
+      "Do conceito ao código. Criação de sistemas de design coerentes, escaláveis e centrados na experiência do usuário — com atenção obsessiva aos detalhes que a maioria ignora.",
+    tools: ["HTML", "CSS", "VS Code", "JavaScript"],
+  },
+  {
+    kicker: "Serviço Adicional",
+    title: "Designer Gráfico",
+    description:
+      "Da mente para a tela. Crio logos, monto identidades visuais, modernizo marcas. Cada arte feita torna a marca mais profissional e autêntica.",
+    tools: ["Canva", "Figma", "Photoshop"],
+  },
+];
+---
+
+<section id="servicos" class="servicos" aria-labelledby="servicos-title">
+  <div class="grid-shell">
+    <div class="panel servicos__header">
+      <p class="chapter-label">
+        <span>CHAPTER #03</span>
+      </p>
+      <h2 id="servicos-title" class="servicos__title">Serviços</h2>
+      <p class="servicos__title-jp jp">お願い、二人きりでいたい</p>
+    </div>
+
+    <div class="servicos__grid grid">
+      {
+        services.map((service) => (
+          <article class="panel--dark servicos__card">
+            <p class="servicos__kicker">{service.kicker}</p>
+            <h3 class="servicos__card-title">{service.title}</h3>
+            <p class="servicos__description">{service.description}</p>
+            <ul class="servicos__tools" aria-label={`Ferramentas: ${service.title}`}>
+              {service.tools.map((tool) => (
+                <li class="servicos__tool">{tool}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicos {
+    padding-block: var(--space-7);
+    border-bottom: var(--border-hairline);
+  }
+
+  .servicos__header {
+    gap: var(--space-2);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .servicos__title {
+    font-size: var(--step-h2);
+  }
+
+  .servicos__title-jp {
+    color: var(--ink-soft);
+  }
+
+  .servicos__grid {
+    gap: var(--space-4);
+  }
+
+  .servicos__card {
+    grid-column: 1 / -1;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .servicos__kicker {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(241, 236, 220, 0.6);
+  }
+
+  .servicos__card-title {
+    font-size: var(--step-h3);
+    text-transform: uppercase;
+  }
+
+  .servicos__description {
+    color: rgba(241, 236, 220, 0.82);
+    max-width: 42ch;
+  }
+
+  .servicos__tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+  }
+
+  .servicos__tool {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.04em;
+    border: var(--border-hairline-dark);
+    padding: 0.3rem 0.6rem;
+  }
+
+  @media (min-width: 900px) {
+    .servicos__header {
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .servicos__card {
+      grid-column: span 6;
+    }
+  }
+</style>

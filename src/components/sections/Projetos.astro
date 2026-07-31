@@ -1,0 +1,251 @@
+---
+import { getCollection } from "astro:content";
+import ProjectCard from "../ui/ProjectCard.astro";
+
+const allProjects = (await getCollection("projects"))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 5);
+---
+
+<section id="projetos" class="projetos" aria-labelledby="projetos-title">
+  <div class="grid-shell projetos__header panel--dark">
+    <p class="chapter-label">
+      <span>CHAPTER #02</span>
+    </p>
+    <h2 id="projetos-title" class="projetos__title">Projetos</h2>
+    <p class="projetos__title-jp jp">作品集</p>
+  </div>
+
+  <div class="projetos__vitrine" data-vitrine>
+    <div class="projetos__controls grid-shell">
+      <button
+        type="button"
+        class="projetos__nav-btn"
+        data-vitrine-prev
+        aria-label="Projeto anterior"
+      >
+        ←
+      </button>
+      <button
+        type="button"
+        class="projetos__nav-btn"
+        data-vitrine-next
+        aria-label="Próximo projeto"
+      >
+        →
+      </button>
+    </div>
+    <div class="projetos__sticky" data-vitrine-sticky>
+      <ul class="projetos__track" data-vitrine-track role="list">
+        {
+          allProjects.map((project, i) => (
+            <li class="projetos__item">
+              <ProjectCard project={project} eager={i === 0} />
+            </li>
+          ))
+        }
+        <li class="projetos__item projetos__item--archive">
+          <a href="/arquivo" class="projetos__archive-card">
+            <span class="projetos__archive-count">04+</span>
+            <span class="projetos__archive-label">
+              Outros projetos, experimentos e trabalhos
+            </span>
+            <span class="projetos__archive-cta">
+              Ver arquivo completo <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid-shell projetos__hint" aria-hidden="true">
+    <span class="projetos__hint-drag">
+      Arraste ou use as setas para explorar
+      <span class="projetos__hint-arrows">← →</span>
+    </span>
+    <span class="projetos__hint-continue">Continuar a leitura ↓</span>
+  </div>
+</section>
+
+<style>
+  .projetos {
+    background: var(--black);
+    color: var(--paper);
+    padding-block: var(--space-7) var(--space-6);
+  }
+
+  .projetos__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    margin-bottom: var(--space-5);
+  }
+
+  .projetos__title {
+    font-size: var(--step-h2);
+  }
+
+  .projetos__title-jp {
+    color: rgba(241, 236, 220, 0.6);
+  }
+
+  .chapter-label {
+    color: rgba(241, 236, 220, 0.6);
+  }
+
+  .projetos__vitrine {
+    position: relative;
+  }
+
+  .projetos__controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding-bottom: var(--space-3);
+  }
+
+  .projetos__nav-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+    border: var(--border-hairline-dark);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .projetos__nav-btn:hover,
+  .projetos__nav-btn:focus-visible {
+    background: var(--paper);
+    color: var(--black);
+  }
+
+  /* Em desktop com pin completo, a navegação por gesto de scroll já
+     conduz a experiência — os botões continuam no DOM (teclado/clique)
+     mas recuam visualmente para não competir com o gesto principal. */
+  .projetos[data-vitrine-mode="desktop"] .projetos__sticky {
+    height: 100vh;
+  }
+
+  .projetos[data-vitrine-mode="desktop"] .projetos__track {
+    overflow: visible;
+    scroll-snap-type: none;
+    padding-block: 0;
+    will-change: transform;
+  }
+
+  .projetos__sticky {
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .projetos__track {
+    display: flex;
+    gap: var(--grid-gutter);
+    padding-inline: var(--grid-margin);
+    padding-block: var(--space-2);
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+  }
+
+  .projetos__item {
+    flex: 0 0 auto;
+    width: min(78vw, 340px);
+    scroll-snap-align: start;
+  }
+
+  .projetos__archive-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-4);
+    height: 100%;
+    min-height: 420px;
+    border: var(--border-hairline-dark);
+    padding: var(--space-4);
+  }
+
+  .projetos__archive-count {
+    font-family: var(--font-display);
+    font-size: var(--step-h1);
+    line-height: 1;
+  }
+
+  .projetos__archive-label {
+    font-size: var(--step-body);
+    color: rgba(241, 236, 220, 0.75);
+    max-width: 24ch;
+  }
+
+  .projetos__archive-cta {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .projetos__hint {
+    display: flex;
+    justify-content: space-between;
+    padding-top: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    color: rgba(241, 236, 220, 0.55);
+  }
+
+  .projetos__hint-arrows {
+    margin-left: var(--space-2);
+  }
+
+  /* --- modo nativo (mobile / reduced motion): overflow horizontal ---
+     também é o estado inicial antes do JS rodar (progressive enhancement) */
+  .projetos[data-vitrine-mode="native"] .projetos__sticky,
+  .projetos:not([data-vitrine-mode]) .projetos__sticky {
+    height: auto;
+  }
+
+  .projetos[data-vitrine-mode="native"] .projetos__track,
+  .projetos:not([data-vitrine-mode]) .projetos__track {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-block: var(--space-2);
+    transform: none !important;
+  }
+
+  .projetos[data-vitrine-mode="native"] .projetos__item,
+  .projetos:not([data-vitrine-mode]) .projetos__item {
+    scroll-snap-align: start;
+    width: 29vw;
+  }
+
+  /* controles só fazem sentido quando não há gesto de arrastar nativo
+     evidente (native já tem overflow scroll do próprio SO) */
+  .projetos[data-vitrine-mode="native"] .projetos__controls,
+  .projetos:not([data-vitrine-mode]) .projetos__controls {
+    display: none;
+  }
+
+  @media (min-width: 700px) {
+    .projetos__item {
+      width: min(46vw, 380px);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .projetos__item {
+      width: min(34vw, 400px);
+    }
+  }
+</style>
+
+<script></script>

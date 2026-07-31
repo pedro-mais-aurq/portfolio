@@ -1,0 +1,101 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  eager?: boolean;
+}
+
+const { project, eager = false } = Astro.props;
+const { volume, title, summary, cover, coverAlt, accentColor, year } = project.data;
+---
+
+<a
+  href={`/projetos/${project.id}`}
+  class="project-card"
+  style={`--accent:${accentColor}`}
+  data-project-card
+>
+  <div class="project-card__cover">
+    <Image
+      src={cover}
+      alt={coverAlt}
+      width={600}
+      height={800}
+      loading={eager ? "eager" : "lazy"}
+    />
+  </div>
+  <div class="project-card__meta">
+    <span class="project-card__volume">Volume {volume}</span>
+    <h3 class="project-card__title">{title}</h3>
+    <p class="project-card__summary">{summary}</p>
+    <span class="project-card__year">{year}</span>
+  </div>
+</a>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    border: var(--border-hairline-dark);
+    background: var(--black-2);
+    color: var(--paper);
+    height: 100%;
+    width: 60vh;
+  }
+
+  .project-card:hover .project-card__title,
+  .project-card:focus-visible .project-card__title {
+    color: var(--accent, var(--red));
+  }
+
+  .project-card__cover {
+    border-bottom: var(--border-hairline-dark);
+    background: var(--ink);
+  }
+
+  .project-card__cover :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+  }
+
+  .project-card__meta {
+    padding: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+  }
+
+  .project-card__volume {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    color: rgba(241, 236, 220, 0.6);
+  }
+
+  .project-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-h3);
+    text-transform: uppercase;
+    line-height: 0.95;
+    transition: color 0.15s ease;
+  }
+
+  .project-card__summary {
+    font-size: var(--step-caption);
+    color: rgba(241, 236, 220, 0.72);
+    margin-top: 0.25rem;
+  }
+
+  .project-card__year {
+    margin-top: auto;
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    color: rgba(241, 236, 220, 0.6);
+  }
+</style>

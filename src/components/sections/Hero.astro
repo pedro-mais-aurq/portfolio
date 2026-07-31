@@ -1,0 +1,244 @@
+---
+import heroSketch from "../../assets/characters/hero-sketch.webp";
+import { Image } from "astro:assets";
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <p class="hero__margin margin-note" aria-hidden="true">
+    EDITORIAL NOTE | HORIZONTE · BRASIL
+  </p>
+
+  <div class="hero_linha"></div>
+  <div class="hero__shell grid-shell">
+    <div class="hero__top">
+      <p class="chapter-label">
+        <span>CAPTHER 00</span>
+        <span class="chapter-label__jp">ホーは・ABOUT</span>
+      </p>
+    </div>
+
+    <div class="hero__grid grid">
+      <div class="hero__main">
+        <h1 id="hero-title" class="hero__title">
+          Pedro Neres
+          <span class="hero__title-jp jp">ペドロ ネレス ー デザイナー</span>
+        </h1>
+
+        <blockquote class="hero__quote">
+          <p>
+            <em
+              >Corro para recuperar<br />
+              tudo o que perdi<br />
+              Sangue, carne, ossos<br />
+              e algo mais</em
+            >
+          </p>
+        </blockquote>
+
+        <div class="hero__footer-row">
+          <span class="hero__page-number">005</span>
+          <span class="hero__rule" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <aside class="hero__figure" aria-label="Ilustração de abertura">
+        <div class="panel hero__figure-panel">
+   
+          <Image
+            src={heroSketch}
+            alt="Esboço editorial de abertura, traço em preto e branco, estilo mangá"
+            width={450}
+            height={450}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+
+        <div class="panel hero__note">
+          <p class="hero__note-label">Nota Editorial</p>
+          <p class="hero__note-question jp">
+            Você também sente isso?
+          </p>
+          <span class="hero__note-arrow" aria-hidden="true">→</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: var(--space-6) var(--space-7);
+    border-bottom: var(--border-hairline);
+  }
+
+  .hero__margin {
+    display: none;
+    position: absolute;
+    left: var(--space-4);
+    top: var(--space-6);
+    bottom: var(--space-6);
+    height: auto;
+  }
+
+  .hero__top {
+    padding-bottom: var(--space-5);
+  }
+
+  .hero__grid {
+    align-items: start;
+  }
+
+  .hero__main {
+    grid-column: 1 / -1;
+  }
+
+  .hero__title {
+    font-size: var(--step-h1);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .hero__title-jp {
+    font-size: var(--step-lead);
+    text-transform: none;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+
+  .hero__quote {
+    margin-top: var(--space-8);
+    max-width: 26ch;
+    font-family: var(--font-body);
+    font-size: var(--step-lead);
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .hero__footer-row {
+    margin-top: var(--space-8);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .hero__page-number {
+    font-family: var(--font-mono);
+    font-size: var(--step-h3);
+    line-height: 1;
+  }
+
+  .hero__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--hairline);
+  }
+
+  .hero__figure {
+    grid-column: 1 / -1;
+    margin-top: var(--space-6);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .hero__figure-panel {
+    overflow: hidden;
+  }
+
+  .hero__figure-panel :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .hero__figure-caption {
+    border-right: var(--border-hairline);
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.04em;
+    justify-self: left;
+    align-self: center;
+  }
+
+  .hero__figure-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .hero__figure-fig {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .hero__figure-fig-jp {
+    font-size: var(--step-caption);
+    color: var(--ink-soft);
+  }
+
+  .hero__figure-tagline {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: var(--step-h3);
+    text-align: right;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .hero__note {
+    padding: var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .hero__note-label {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .hero__note-question {
+    font-size: var(--step-caption);
+  }
+
+  .hero__note-arrow {
+    font-family: var(--font-mono);
+    font-size: var(--step-h3);
+    line-height: 1;
+  }
+
+  .hero_linha {
+    background-color: var(--ink-soft);
+    height: 90vh;
+    width: 1px;
+    position: absolute;
+    left: 6rem;
+    top: var(--space-6);
+  }
+
+  @media (min-width: 900px) {
+    .hero__margin {
+      display: block;
+    }
+
+    .hero__main {
+      grid-column: 1 / 8;
+    }
+
+    .hero__figure {
+      grid-column: 8 / -1;
+      margin-top: 0;
+    }
+  }
+</style>

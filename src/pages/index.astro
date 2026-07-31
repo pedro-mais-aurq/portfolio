@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/layout/Header.astro";
+import Hero from "../components/sections/Hero.astro";
+import Sobre from "../components/sections/Sobre.astro";
+import Projetos from "../components/sections/Projetos.astro";
+import Servicos from "../components/sections/Servicos.astro";
+import Quote from "../components/sections/Quote.astro";
+import Contato from "../components/sections/Contato.astro";
+import Epilogo from "../components/sections/Epilogo.astro";
+---
+
+<BaseLayout
+  title="Pedro Neres — Web Design & Direção de Arte"
+  description="Portfólio de Pedro Neres: web design, direção de arte e front-end apresentados como volumes de uma coleção editorial."
+>
+  <Header />
+  <main id="conteudo">
+    <Hero />
+    <Sobre />
+    <Projetos />
+    <Servicos />
+    <Quote />
+    <Contato />
+  </main>
+  <Epilogo />
+</BaseLayout>

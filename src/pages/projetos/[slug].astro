@@ -1,0 +1,106 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/layout/Header.astro";
+import Epilogo from "../../components/sections/Epilogo.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { title, volume, summary, role, year, accentColor, cover, coverAlt } =
+  project.data;
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  title={`${title} — Pedro Neres`}
+  description={summary}
+>
+  <Header />
+  <main id="conteudo">
+    <article class="case" style={`--accent:${accentColor}`}>
+      <div class="grid-shell case__header">
+        <p class="chapter-label">
+          <span>Volume {volume}</span>
+          <span><a href="/#projetos">← Voltar aos projetos</a></span>
+        </p>
+        <h1 class="case__title">{title}</h1>
+        <p class="case__summary">{summary}</p>
+        <ul class="case__meta" role="list">
+          <li>{year}</li>
+          {role.map((r: string) => <li>{r}</li>)}
+        </ul>
+      </div>
+
+      <div class="case__cover">
+        <Image src={cover} alt={coverAlt} width={1400} height={900} loading="eager" fetchpriority="high" />
+      </div>
+
+      <div class="grid-shell case__body">
+        <Content />
+      </div>
+    </article>
+  </main>
+  <Epilogo />
+</BaseLayout>
+
+<style>
+  .case__header {
+    padding-block: var(--space-6) var(--space-5);
+  }
+
+  .case__header .chapter-label {
+    justify-content: space-between;
+    display: flex;
+  }
+
+  .case__header .chapter-label a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+  }
+
+  .case__title {
+    margin-top: var(--space-4);
+    font-size: var(--step-h1);
+    color: var(--accent, var(--ink));
+  }
+
+  .case__summary {
+    margin-top: var(--space-4);
+    max-width: 60ch;
+    font-size: var(--step-lead);
+  }
+
+  .case__meta {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+
+  .case__cover {
+    border-block: var(--border-hairline);
+  }
+
+  .case__cover :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .case__body {
+    padding-block: var(--space-6);
+    max-width: 68ch;
+    line-height: 1.7;
+  }
+</style>

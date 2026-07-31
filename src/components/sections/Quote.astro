@@ -1,0 +1,87 @@
+---
+import quoteImg from "../../assets/characters/quote-bleach.webp";
+import { Image } from "astro:assets";
+---
+
+<section class="quote" aria-label="Citação">
+  <div class="quote__figure" aria-hidden="true">
+    <Image
+      src={quoteImg}
+      alt=""
+      width={735}
+      height={648}
+      loading="lazy"
+    />
+  </div>
+  <div class="grid-shell quote__shell">
+    <blockquote class="quote__text">
+      <p>
+        “ Corro para obter<br />
+        Tudo aquilo que perdi.<br />
+        Sangue, carne, ossos<br />
+        E algo mais ”.
+      </p>
+      <cite class="quote__cite">Tite Kubo — Bleach</cite>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .quote {
+    position: relative;
+    background: var(--black);
+    color: var(--paper);
+    padding-block: var(--space-8);
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .quote__figure {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.16;
+    pointer-events: none;
+  }
+
+  .quote__figure :global(img) {
+    height: 130%;
+    width: auto;
+    filter: grayscale(1) contrast(1.1);
+    object-fit: cover;
+    
+  }
+
+  .quote__shell {
+    position: relative;
+  }
+
+  .quote__text {
+    max-width: 20ch;
+    margin-inline: auto;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: var(--step-h2);
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .quote__cite {
+    display: block;
+    margin-top: var(--space-4);
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    color: rgba(241, 236, 220, 0.6);
+    text-transform: none;
+  }
+
+  @media (max-width: 700px) {
+    .quote__figure {
+      opacity: 0.1;
+    }
+  }
+</style>
