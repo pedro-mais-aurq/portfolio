@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import { siteUrl } from "../../utils/urls";
 
 interface Props {
   project: CollectionEntry<"projects">;
@@ -8,31 +9,84 @@ interface Props {
 }
 
 const { project, eager = false } = Astro.props;
-const { volume, title, summary, cover, coverAlt, accentColor, year } = project.data;
+const {
+  volume,
+  title,
+  summary,
+  cover,
+  coverAlt,
+  accentColor,
+  year,
+  status,
+} = project.data;
+const isPreview = status === "preview";
+const Tag = isPreview ? "article" : "a";
 ---
 
-<a
-  href={`/projetos/${project.id}`}
-  class="project-card"
+<Tag
+  href={isPreview ? undefined : siteUrl(`projetos/${project.id}`)}
+  class:list={["project-card", { "project-card--preview": isPreview }]}
   style={`--accent:${accentColor}`}
   data-project-card
+  data-project-status={status}
+  data-cursor-theme="dark"
 >
   <div class="project-card__cover">
-    <Image
-      src={cover}
-      alt={coverAlt}
-      width={600}
-      height={800}
-      loading={eager ? "eager" : "lazy"}
-    />
+    <div
+      class="project-card__image-motion"
+      data-motion-depth="15"
+      data-motion-x="1"
+      data-motion-y="0.82"
+    >
+      <Image
+        src={cover}
+        alt={coverAlt}
+        width={cover.width}
+        height={cover.height}
+        loading={eager ? "eager" : "lazy"}
+      />
+    </div>
+    {isPreview && <span class="project-card__preview-label" data-motion-depth="3" data-motion-x="-0.65" data-motion-y="0.45">Preview</span>}
   </div>
   <div class="project-card__meta">
-    <span class="project-card__volume">Volume {volume}</span>
-    <h3 class="project-card__title">{title}</h3>
-    <p class="project-card__summary">{summary}</p>
-    <span class="project-card__year">{year}</span>
+    <span
+      class="project-card__volume"
+      data-motion-depth="6"
+      data-motion-x="-0.75"
+      data-motion-y="0.55"
+    >
+      Volume {volume}
+    </span>
+    <h3
+      class="project-card__title"
+      data-motion-depth="4"
+      data-motion-x="0.8"
+      data-motion-y="0.6"
+    >
+      {title}
+    </h3>
+    <p
+      class="project-card__summary"
+      data-motion-depth="2.5"
+      data-motion-x="-0.65"
+      data-motion-y="0.45"
+    >
+      {summary}
+    </p>
+    {
+      year && (
+        <span
+          class="project-card__year"
+          data-motion-depth="2"
+          data-motion-x="0.6"
+          data-motion-y="-0.45"
+        >
+          {year}
+        </span>
+      )
+    }
   </div>
-</a>
+</Tag>
 
 <style>
   .project-card {
@@ -42,25 +96,63 @@ const { volume, title, summary, cover, coverAlt, accentColor, year } = project.d
     background: var(--black-2);
     color: var(--paper);
     height: 100%;
-    width: 60vh;
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: translate 0.22s ease, box-shadow 0.22s ease;
   }
 
-  .project-card:hover .project-card__title,
-  .project-card:focus-visible .project-card__title {
+  a.project-card:hover,
+  a.project-card:focus-visible {
+    translate: 0 -0.3rem;
+    box-shadow: 0 0.7rem 0 rgba(241, 236, 220, 0.12);
+  }
+
+  a.project-card:hover .project-card__title,
+  a.project-card:focus-visible .project-card__title {
     color: var(--accent, var(--red));
   }
 
   .project-card__cover {
+    position: relative;
+    aspect-ratio: 3 / 4;
     border-bottom: var(--border-hairline-dark);
     background: var(--ink);
+    overflow: hidden;
   }
 
-  .project-card__cover :global(img) {
+  .project-card__image-motion {
     width: 100%;
-    height: auto;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
+    height: 100%;
+    scale: 1.05;
+  }
+
+  .project-card__image-motion :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     display: block;
+    transition: scale 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  a.project-card:hover .project-card__image-motion :global(img),
+  a.project-card:focus-visible .project-card__image-motion :global(img) {
+    scale: 1.04;
+  }
+
+  .project-card__preview-label {
+    position: absolute;
+    left: var(--space-3);
+    bottom: var(--space-3);
+    padding: 0.28rem 0.55rem;
+    border: var(--border-hairline-dark);
+    background: var(--black);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .project-card__meta {
@@ -97,5 +189,11 @@ const { volume, title, summary, cover, coverAlt, accentColor, year } = project.d
     font-family: var(--font-mono);
     font-size: var(--step-caption);
     color: rgba(241, 236, 220, 0.6);
+  }
+
+  .project-card--preview {
+    background:
+      linear-gradient(135deg, rgba(241, 236, 220, 0.035), transparent 55%),
+      var(--black-2);
   }
 </style>

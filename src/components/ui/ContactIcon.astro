@@ -1,0 +1,36 @@
+---
+import EmailIcon from "../../assets/icons/email.svg";
+import InstagramIcon from "../../assets/icons/instagram.svg";
+import WhatsappIcon from "../../assets/icons/whatsapp.svg";
+
+interface Props {
+  name: "whatsapp" | "email" | "instagram";
+  title: string;
+}
+
+const { name, title } = Astro.props;
+const icons = {
+  whatsapp: WhatsappIcon,
+  email: EmailIcon,
+  instagram: InstagramIcon,
+};
+const Icon = icons[name];
+---
+
+<span
+  class="contact-icon"
+  role="img"
+  aria-label={title}
+  data-contact-icon={name}
+>
+  <Icon aria-hidden="true" />
+</span>
+
+<style>
+  .contact-icon,
+  .contact-icon :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+</style>

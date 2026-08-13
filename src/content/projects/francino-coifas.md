@@ -8,7 +8,11 @@ accentColor: "#1c1810"
 cover: "../../assets/projects/francino-coifas.jpeg"
 coverAlt: "Capa provisória do projeto Francino Coifas — placeholder, substituir pela capa real"
 featured: true
+status: "completed"
 order: 1
+
+url: "https://francinocalhas.com.br/"
+previewMode: "live"
 ---
 
 <!-- Conteúdo de case a ser preenchido pelo cliente. -->

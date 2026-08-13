@@ -1,93 +1,128 @@
 ---
+import { contact } from "../../data/contact";
+import { siteBase } from "../../utils/urls";
+
 const year = new Date().getFullYear();
-import Logo from "../../assets/logo/logo_branca.svg";
+const logoSrc = `${siteBase}logo_branca.svg`;
 ---
 
-<footer class="epilogo" aria-label="Encerramento">
+<footer class="epilogo" aria-label="Encerramento" data-cursor-theme="dark">
   <div class="grid-shell epilogo__shell">
     <p class="epilogo__kicker">
-      <span class="epilogo__kicker-number">Epílogo</span>
-      <span class="epilogo__kicker-sep">#05</span>
+      <span data-motion-depth="2" data-motion-x="-0.65" data-motion-y="0.42">Epílogo</span>
+      <span data-motion-depth="4" data-motion-x="0.72" data-motion-y="-0.5">#05</span>
     </p>
 
-    <!-- placeholder: logo final do macaco a ser fornecido pelo cliente -->
-    <Logo class="epilogo__logo" />
-
-    <h2 class="epilogo__wordmark">Neres</h2>
-    <p class="epilogo__subtitle">Web Design</p>
-    <p class="epilogo__tagline">Projetos digitais com direção editorial.</p>
-
-    <div class="epilogo__footer">
-      <span>@neres.web</span>
-      <span>nerescode@gmail.com</span>
-      <span>(31) 98248-1194</span>
-      <span>Belo Horizonte</span>
-      <span>{year} Pedro Neres</span>
+    <div class="epilogo__monogram" data-motion-depth="10" data-motion-x="0.85" data-motion-y="0.68" aria-hidden="true">
+      <img src={logoSrc} alt="" width="1024" height="1024" />
     </div>
+
+    <div class="epilogo__identity">
+      <h2 class="epilogo__wordmark" data-motion-depth="5" data-motion-x="-0.76" data-motion-y="0.54">Neres</h2>
+      <p class="epilogo__subtitle" data-motion-depth="2" data-motion-x="0.65" data-motion-y="-0.42">Web Design</p>
+    </div>
+    <p class="epilogo__tagline" data-motion-depth="3" data-motion-x="-0.68" data-motion-y="0.46">Projetos digitais com direção editorial.</p>
+
+    <address class="epilogo__footer">
+      <a href={contact.instagramUrl} target="_blank" rel="noopener noreferrer" data-motion-depth="2" data-motion-x="-0.6" data-motion-y="0.4">{contact.instagramLabel}</a>
+      <a href={contact.emailUrl} data-motion-depth="2" data-motion-x="0.6" data-motion-y="-0.4">{contact.email}</a>
+      <a href={contact.whatsappUrl} target="_blank" rel="noopener noreferrer" data-motion-depth="2" data-motion-x="-0.6" data-motion-y="-0.4">{contact.phoneLabel}</a>
+      <span data-motion-depth="1.5" data-motion-x="0.55" data-motion-y="0.35">{contact.city}</span>
+      <span data-motion-depth="1.5" data-motion-x="-0.55" data-motion-y="-0.35">{year} Pedro Neres</span>
+    </address>
   </div>
 </footer>
 
 <style>
   .epilogo {
+    min-height: min(100svh, 58rem);
+    padding-block: clamp(4rem, 9vw, 8rem) var(--space-5);
     background: var(--black);
     color: var(--paper);
-    padding-block: var(--space-8);
+    overflow: clip;
   }
 
   .epilogo__shell {
+    min-height: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: var(--space-4);
   }
 
   .epilogo__kicker {
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     gap: var(--space-2);
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-hairline-dark);
     font-family: var(--font-mono);
     font-size: var(--step-caption);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: rgba(241, 236, 220, 0.55);
-    align-self: flex-start;
+    color: rgba(241, 236, 220, 0.52);
   }
 
-  .epilogo__logo {
-    color: var(--paper);
-    width: 30rem;
-    margin-top: var(--space-2);
-    margin-bottom: -300px;
+  .epilogo__monogram {
+    width: min(100%, 36rem);
+    margin-block: auto clamp(2rem, 5vw, 4rem);
+    display: grid;
+    place-items: center;
+    user-select: none;
+  }
+
+  .epilogo__monogram img {
+    display: block;
+    width: min(68vw, 22rem);
+    height: auto;
+    object-fit: contain;
+  }
+
+  .epilogo__identity {
+    display: grid;
+    gap: var(--space-2);
   }
 
   .epilogo__wordmark {
-    font-size: var(--step-h1);
-    letter-spacing: 0.08em;
+    font-size: clamp(4rem, 15vw, 10rem);
+    line-height: 0.78;
+    letter-spacing: -0.035em;
   }
 
   .epilogo__subtitle {
     font-family: var(--font-mono);
     font-size: var(--step-caption);
-    letter-spacing: 0.3em;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: rgba(241, 236, 220, 0.7);
-    margin-top: -0.5rem;
+    color: rgba(241, 236, 220, 0.68);
   }
 
   .epilogo__tagline {
-    margin-top: var(--space-5);
+    margin-top: clamp(2rem, 5vw, 4rem);
     font-style: italic;
-    color: rgba(241, 236, 220, 0.75);
+    color: rgba(241, 236, 220, 0.72);
   }
 
   .epilogo__footer {
-    margin-top: var(--space-7);
+    width: 100%;
+    margin-top: clamp(3rem, 8vw, 7rem);
+    padding-top: var(--space-4);
+    border-top: var(--border-hairline-dark);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: var(--space-4);
+    gap: var(--space-3) var(--space-5);
     font-family: var(--font-mono);
     font-size: var(--step-caption);
+    font-style: normal;
     color: rgba(241, 236, 220, 0.55);
+  }
+
+  .epilogo__footer a:hover,
+  .epilogo__footer a:focus-visible {
+    color: var(--paper);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
   }
 </style>

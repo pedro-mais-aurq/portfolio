@@ -50,6 +50,7 @@
   --grid-gutter: clamp(0.2rem, 0.5vw, 0.75rem);
   --grid-margin: clamp(1rem, 3vw, 2.5rem);
   --content-max: 1440px;
+  --header-height: clamp(4.25rem, 6vw, 5.25rem);
 
   --border-hairline: 1px solid var(--hairline);
   --border-hairline-dark: 1px solid rgba(241, 236, 220, 0.28);
@@ -67,6 +68,51 @@ body {
   font-family: var(--font-body);
   font-size: var(--step-body);
   font-feature-settings: "ss01" 1;
+  overflow-x: clip;
+}
+
+.paper-grain {
+  position: fixed;
+  z-index: 90;
+  inset: -4px;
+  pointer-events: none;
+  opacity: 0.17;
+  mix-blend-mode: multiply;
+  background-image:
+    repeating-radial-gradient(circle at 17% 23%, rgba(22, 19, 12, 0.13) 0, rgba(22, 19, 12, 0.13) 0.35px, transparent 0.55px, transparent 3px),
+    repeating-linear-gradient(87deg, rgba(255, 255, 255, 0.2) 0, rgba(255, 255, 255, 0.2) 1px, transparent 1px, transparent 5px);
+}
+
+.site-cursor {
+  position: fixed;
+  z-index: 120;
+  left: 0;
+  top: 0;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  opacity: 0;
+  translate: -50% -50%;
+  transition: opacity 0.1s ease;
+  will-change: transform;
+}
+
+.site-cursor[data-cursor-visible="true"] {
+  opacity: 1;
+}
+
+@media (pointer: fine) and (hover: hover) {
+  html[data-custom-cursor="true"],
+  html[data-custom-cursor="true"] * {
+    cursor: none !important;
+  }
+}
+
+section[id] {
+  scroll-margin-top: calc(var(--header-height) + var(--space-2));
 }
 
 h1,
@@ -119,6 +165,33 @@ h3 {
 .chapter-label__jp {
   font-family: var(--font-jp);
   letter-spacing: 0.12em;
+}
+
+.section-heading {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  padding: clamp(1rem, 2.5vw, 2rem);
+}
+
+.section-heading__title {
+  font-size: var(--step-h2);
+}
+
+.section-heading__jp {
+  color: var(--ink-soft);
+  font-size: var(--step-body);
+  letter-spacing: 0.08em;
+}
+
+.section-heading__mark {
+  position: absolute;
+  right: clamp(1rem, 4vw, 3.5rem);
+  top: 50%;
+  width: clamp(2rem, 7vw, 4.5rem);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
 }
 
 /* Cartão com borda fina, cantos retos — nunca border-radius */
@@ -188,4 +261,14 @@ h3 {
 
 .skip-link:focus {
   top: var(--space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-grain {
+    transform: none !important;
+  }
+
+  .site-cursor {
+    transition: none;
+  }
 }

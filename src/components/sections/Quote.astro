@@ -3,8 +3,8 @@ import quoteImg from "../../assets/characters/quote-bleach.webp";
 import { Image } from "astro:assets";
 ---
 
-<section class="quote" aria-label="Citação">
-  <div class="quote__figure" aria-hidden="true">
+<section class="quote" aria-label="Citação" data-cursor-theme="dark">
+  <div class="quote__figure" data-motion-depth="15" data-motion-x="0.9" data-motion-y="0.78" aria-hidden="true">
     <Image
       src={quoteImg}
       alt=""
@@ -14,14 +14,14 @@ import { Image } from "astro:assets";
     />
   </div>
   <div class="grid-shell quote__shell">
-    <blockquote class="quote__text">
+    <blockquote class="quote__text" data-motion-depth="5" data-motion-x="-0.75" data-motion-y="0.58">
       <p>
         “ Corro para obter<br />
         Tudo aquilo que perdi.<br />
         Sangue, carne, ossos<br />
         E algo mais ”.
       </p>
-      <cite class="quote__cite">Tite Kubo — Bleach</cite>
+      <cite class="quote__cite" data-motion-depth="2" data-motion-x="0.65" data-motion-y="-0.42">Tite Kubo — Bleach</cite>
     </blockquote>
   </div>
 </section>
@@ -31,9 +31,11 @@ import { Image } from "astro:assets";
     position: relative;
     background: var(--black);
     color: var(--paper);
-    padding-block: var(--space-8);
+    min-height: 100svh;
+    padding-block: clamp(4rem, 12vw, 9rem);
     overflow: hidden;
-    height: 100vh;
+    display: grid;
+    place-items: center;
   }
 
   .quote__figure {
@@ -47,15 +49,15 @@ import { Image } from "astro:assets";
   }
 
   .quote__figure :global(img) {
-    height: 130%;
+    height: min(135%, 70rem);
     width: auto;
     filter: grayscale(1) contrast(1.1);
     object-fit: cover;
-    
   }
 
   .quote__shell {
     position: relative;
+    width: 100%;
   }
 
   .quote__text {
@@ -63,7 +65,7 @@ import { Image } from "astro:assets";
     margin-inline: auto;
     text-align: center;
     font-family: var(--font-display);
-    font-size: var(--step-h2);
+    font-size: clamp(2.25rem, 7vw, 6.25rem);
     line-height: 1.05;
     text-transform: uppercase;
   }

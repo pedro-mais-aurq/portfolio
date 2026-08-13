@@ -4,37 +4,158 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/layout/Header.astro";
 import Epilogo from "../components/sections/Epilogo.astro";
 import ProjectCard from "../components/ui/ProjectCard.astro";
+import { siteUrl } from "../utils/urls";
 
 const projects = (await getCollection("projects")).sort(
-  (a, b) => a.data.order - b.data.order
+  (a, b) => a.data.order - b.data.order,
 );
+const completedProjects = projects.filter(
+  (project) => project.data.status === "completed",
+);
+const previewProjects = projects.filter(
+  (project) => project.data.status === "preview",
+);
+const vectors = [
+  { x: 1, y: 0.72, rotate: 0.55 },
+  { x: -0.82, y: 0.68, rotate: -0.5 },
+  { x: 0.86, y: -0.62, rotate: 0.48 },
+  { x: -0.75, y: -0.58, rotate: -0.42 },
+];
 ---
 
 <BaseLayout
   title="Arquivo completo — Pedro Neres"
-  description="Todos os projetos, experimentos e trabalhos de Pedro Neres reunidos em um único volume."
+  description="Projetos concluídos e prévias de Pedro Neres reunidos em um arquivo editorial."
 >
   <Header />
   <main id="conteudo">
-    <section class="arquivo">
-      <div class="grid-shell arquivo__header">
-        <p class="chapter-label">
-          <span><a href="/#projetos">← Voltar</a></span>
+    <section class="arquivo" data-cursor-theme="dark">
+      <header class="grid-shell arquivo__header">
+        <p
+          class="chapter-label"
+          data-motion-depth="2"
+          data-motion-x="-0.7"
+          data-motion-y="0.5"
+        >
+          <span><a href={siteUrl("", "projetos")}>← Voltar</a></span>
         </p>
-        <h1 class="arquivo__title">Arquivo Completo</h1>
-        <p class="arquivo__title-jp jp">全作品</p>
-      </div>
+        <h1
+          class="arquivo__title"
+          data-motion-depth="5"
+          data-motion-x="0.78"
+          data-motion-y="0.52"
+        >
+          Arquivo Completo
+        </h1>
+        <p
+          class="arquivo__title-jp jp"
+          data-motion-depth="2"
+          data-motion-x="-0.65"
+          data-motion-y="0.45"
+        >
+          全作品
+        </p>
+      </header>
 
-      <div class="grid-shell">
-        <ul class="arquivo__grid" role="list">
-          {
-            projects.map((project, i) => (
-              <li>
-                <ProjectCard project={project} eager={i < 2} />
-              </li>
-            ))
-          }
-        </ul>
+      <div class="grid-shell arquivo__groups">
+        <section class="arquivo__group" data-archive-group="completed">
+          <header class="arquivo__group-header">
+            <span>
+              <span
+                class="arquivo__group-index"
+                data-motion-depth="4"
+                data-motion-x="-0.7"
+                data-motion-y="0.55"
+              >
+                01
+              </span>
+              <h2
+                data-motion-depth="4"
+                data-motion-x="0.8"
+                data-motion-y="0.5"
+              >
+                Projetos concluídos
+              </h2>
+            </span>
+            <p
+              data-motion-depth="2"
+              data-motion-x="-0.6"
+              data-motion-y="0.4"
+            >
+              {String(completedProjects.length).padStart(2, "0")} projetos
+            </p>
+          </header>
+
+          <ul class="arquivo__grid" role="list">
+            {
+              completedProjects.map((project, index) => {
+                const vector = vectors[index % vectors.length];
+                return (
+                  <li
+                    data-archive-project={project.id}
+                    data-motion-depth="8"
+                    data-motion-x={vector.x}
+                    data-motion-y={vector.y}
+                    data-motion-rotate={vector.rotate}
+                  >
+                    <ProjectCard project={project} eager={index < 2} />
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
+
+        <section
+          class="arquivo__group arquivo__group--preview"
+          data-archive-group="preview"
+        >
+          <header class="arquivo__group-header">
+            <span>
+              <span
+                class="arquivo__group-index"
+                data-motion-depth="4"
+                data-motion-x="0.7"
+                data-motion-y="-0.5"
+              >
+                02
+              </span>
+              <h2
+                data-motion-depth="3"
+                data-motion-x="-0.75"
+                data-motion-y="0.5"
+              >
+                Prévias pendentes
+              </h2>
+            </span>
+            <p
+              data-motion-depth="2"
+              data-motion-x="0.6"
+              data-motion-y="-0.4"
+            >
+              {String(previewProjects.length).padStart(2, "0")} prévia{previewProjects.length === 1 ? "" : "s"}
+            </p>
+          </header>
+
+          <ul class="arquivo__grid arquivo__grid--preview" role="list">
+            {
+              previewProjects.map((project, index) => {
+                const vector = vectors[(index + 2) % vectors.length];
+                return (
+                  <li
+                    data-archive-project={project.id}
+                    data-motion-depth="7"
+                    data-motion-x={vector.x}
+                    data-motion-y={vector.y}
+                    data-motion-rotate={vector.rotate}
+                  >
+                    <ProjectCard project={project} />
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
       </div>
     </section>
   </main>
@@ -43,13 +164,15 @@ const projects = (await getCollection("projects")).sort(
 
 <style>
   .arquivo {
+    min-height: 100svh;
     background: var(--black);
     color: var(--paper);
-    padding-block: var(--space-7);
+    padding-block: clamp(3rem, 7vw, 6rem);
+    overflow: clip;
   }
 
   .arquivo__header {
-    padding-bottom: var(--space-5);
+    padding-bottom: clamp(3rem, 7vw, 6rem);
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
@@ -58,6 +181,7 @@ const projects = (await getCollection("projects")).sort(
   .arquivo__header .chapter-label a {
     color: rgba(241, 236, 220, 0.6);
     text-decoration: underline;
+    text-underline-offset: 0.25em;
   }
 
   .arquivo__title {
@@ -68,21 +192,77 @@ const projects = (await getCollection("projects")).sort(
     color: rgba(241, 236, 220, 0.6);
   }
 
+  .arquivo__groups {
+    display: grid;
+    gap: clamp(5rem, 12vw, 10rem);
+  }
+
+  .arquivo__group {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .arquivo__group-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-hairline-dark);
+  }
+
+  .arquivo__group-header > span {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .arquivo__group-header h2 {
+    font-size: clamp(2rem, 5vw, 4.5rem);
+  }
+
+  .arquivo__group-header p,
+  .arquivo__group-index {
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(241, 236, 220, 0.55);
+  }
+
+  .arquivo__group--preview .arquivo__group-header h2 {
+    font-size: clamp(1.75rem, 4vw, 3.4rem);
+  }
+
   .arquivo__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--grid-gutter);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(1rem, 2.5vw, 2.25rem);
+    perspective: 1200px;
+  }
+
+  .arquivo__grid > li {
+    min-width: 0;
+    transform-style: preserve-3d;
   }
 
   @media (min-width: 700px) {
     .arquivo__grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
   }
 
   @media (min-width: 1100px) {
     .arquivo__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+  }
+
+  @media (max-width: 520px) {
+    .arquivo__group-header {
+      align-items: start;
+      flex-direction: column;
     }
   }
 </style>

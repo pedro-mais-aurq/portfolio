@@ -1,4 +1,6 @@
 ---
+import { siteUrl } from "../../utils/urls";
+
 interface NavItem {
   number: string;
   label: string;
@@ -6,10 +8,10 @@ interface NavItem {
 }
 
 const items: NavItem[] = [
-  { number: "01", label: "Sobre", href: "#sobre" },
-  { number: "02", label: "Projetos", href: "#projetos" },
-  { number: "03", label: "Serviços", href: "#servicos" },
-  { number: "04", label: "Contato", href: "#contato" },
+  { number: "001", label: "Sobre", href: siteUrl("", "sobre") },
+  { number: "002", label: "Projetos", href: siteUrl("", "projetos") },
+  { number: "003", label: "Serviços", href: siteUrl("", "servicos") },
+  { number: "004", label: "Contato", href: siteUrl("", "contato") },
 ];
 ---
 
@@ -17,20 +19,42 @@ const items: NavItem[] = [
   <nav class="site-header__nav" aria-label="Navegação principal">
     <ol class="site-header__list">
       {
-        items.map((item) => (
+        items.map((item, index) => (
           <li class="site-header__item">
             <a href={item.href} class="site-header__link">
-              <span class="site-header__number">{item.number}</span>
-              <span class="site-header__jp jp" aria-hidden="true">私ーて</span>
-              <span class="site-header__label">{item.label}</span>
+              <span
+                class="site-header__number"
+                data-motion-depth="2"
+                data-motion-x={index % 2 === 0 ? 0.65 : -0.65}
+                data-motion-y="0.45"
+              >
+                {item.number}
+              </span>
+              <span
+                class="site-header__jp jp"
+                data-motion-depth="1"
+                data-motion-x={index % 2 === 0 ? -0.6 : 0.6}
+                data-motion-y="0.35"
+                aria-hidden="true"
+              >
+                私ーて
+              </span>
+              <span
+                class="site-header__label"
+                data-motion-depth="1.5"
+                data-motion-x={index % 2 === 0 ? 0.55 : -0.55}
+                data-motion-y="-0.4"
+              >
+                {item.label}
+              </span>
             </a>
           </li>
         ))
       }
     </ol>
     <div class="site-header__volume">
-      <span class="site-header__volume-main">VOLUME 01</span>
-      <span class="site-header__volume-sub">EDIÇÃO 2026</span>
+      <span class="site-header__volume-main" data-motion-depth="2" data-motion-x="-0.6" data-motion-y="0.4">VOLUME 01</span>
+      <span class="site-header__volume-sub" data-motion-depth="1" data-motion-x="0.55" data-motion-y="-0.35">EDIÇÃO 2026</span>
     </div>
   </nav>
 </header>
@@ -42,6 +66,7 @@ const items: NavItem[] = [
     z-index: 50;
     background: var(--paper);
     border-bottom: var(--border-hairline);
+    min-height: var(--header-height);
   }
 
   .site-header__nav {
@@ -50,6 +75,7 @@ const items: NavItem[] = [
     padding-inline: var(--grid-margin);
     display: flex;
     align-items: stretch;
+    min-height: var(--header-height);
   }
 
   .site-header__list {
@@ -59,19 +85,21 @@ const items: NavItem[] = [
   }
 
   .site-header__item {
-    border-left: var(--border-hairline);
+    border-right: var(--border-hairline);
   }
 
   .site-header__item:first-child {
-    border-left: none;
+    border-left: var(--border-hairline);
   }
 
   .site-header__link {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    padding: var(--space-3) var(--space-3);
+    justify-content: center;
+    gap: 0.1rem;
+    padding: var(--space-2) clamp(0.35rem, 1.5vw, var(--space-3));
     height: 100%;
+    min-width: 0;
   }
 
   .site-header__link:hover .site-header__label,
@@ -81,19 +109,20 @@ const items: NavItem[] = [
 
   .site-header__number {
     font-family: var(--font-mono);
-    font-size: var(--step-caption);
-    color: var(--ink-soft);
+    font-size: clamp(0.68rem, 1.25vw, 0.85rem);
+    color: var(--ink);
+    font-weight: 500;
   }
 
   .site-header__jp {
-    font-size: 0.7rem;
+    font-size: clamp(0.52rem, 1vw, 0.68rem);
     color: var(--ink-soft);
     line-height: 1;
   }
 
   .site-header__label {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
+    font-size: clamp(0.52rem, 1vw, 0.72rem);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition: color 0.15s ease;
@@ -105,8 +134,8 @@ const items: NavItem[] = [
     align-items: flex-end;
     justify-content: center;
     gap: 0.15rem;
-    padding-left: var(--space-4);
-    border-left: var(--border-hairline);
+    padding-inline: var(--space-4);
+
     white-space: nowrap;
   }
 
@@ -123,18 +152,28 @@ const items: NavItem[] = [
     letter-spacing: 0.08em;
   }
 
-  @media (min-width: 720px) {
+  @media (min-width: 820px) {
     .site-header__volume {
       display: flex;
     }
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 620px) {
     .site-header__jp {
       display: none;
     }
     .site-header__link {
-      padding: var(--space-2);
+      padding-inline: clamp(0.25rem, 2vw, var(--space-2));
+    }
+
+    .site-header__label {
+      letter-spacing: 0;
+    }
+  }
+
+  @media (max-width: 374px) {
+    .site-header__label {
+      font-size: 0.48rem;
     }
   }
 </style>

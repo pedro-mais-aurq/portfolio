@@ -4,49 +4,49 @@ import { Image } from "astro:assets";
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <p class="hero__margin margin-note" aria-hidden="true">
-    EDITORIAL NOTE | HORIZONTE · BRASIL
+  <p class="hero__margin margin-note" data-motion-depth="1" data-motion-x="-0.5" data-motion-y="0.35" aria-hidden="true">
+    BELO HORIZONTE · BRASIL
   </p>
 
-  <div class="hero_linha"></div>
+  <span class="hero__index" data-motion-depth="5" data-motion-x="-0.75" data-motion-y="0.55" aria-hidden="true">001</span>
   <div class="hero__shell grid-shell">
     <div class="hero__top">
       <p class="chapter-label">
-        <span>CAPTHER 00</span>
-        <span class="chapter-label__jp">ホーは・ABOUT</span>
+        <span data-motion-depth="2" data-motion-x="-0.7" data-motion-y="0.45">CHAPTER 01</span>
+        <span class="chapter-label__jp jp" data-motion-depth="1.5" data-motion-x="0.65" data-motion-y="-0.4">ホーム・ABOUT</span>
       </p>
     </div>
 
     <div class="hero__grid grid">
       <div class="hero__main">
         <h1 id="hero-title" class="hero__title">
-          Pedro Neres
-          <span class="hero__title-jp jp">ペドロ ネレス ー デザイナー</span>
+          <span data-motion-depth="5" data-motion-x="0.82" data-motion-y="0.58">Pedro Neres</span>
+          <span class="hero__title-jp jp" data-motion-depth="2.5" data-motion-x="-0.72" data-motion-y="0.48">ペドロ ネレス ー デザイナー</span>
         </h1>
 
-        <blockquote class="hero__quote">
+        <blockquote class="hero__quote" data-motion-depth="3" data-motion-x="-0.68" data-motion-y="0.5">
           <p>
-            <em
-              >Corro para recuperar<br />
-              tudo o que perdi<br />
-              Sangue, carne, ossos<br />
-              e algo mais</em
-            >
+            Uma vez enferrujado,<br />
+            não consegue mais abrir caminho.<br />
+            Uma vez sem controle,<br />
+            rasga a si próprio em pedaços.<br />
+            Sim, o orgulho se parece<br />
+            com uma espada.
           </p>
         </blockquote>
 
         <div class="hero__footer-row">
-          <span class="hero__page-number">005</span>
+          <span class="hero__page-number" data-motion-depth="5" data-motion-x="0.75" data-motion-y="-0.5">001</span>
           <span class="hero__rule" aria-hidden="true"></span>
+          <span class="hero__cross" data-motion-depth="3" data-motion-x="-0.7" data-motion-y="0.5" aria-hidden="true">+</span>
         </div>
       </div>
 
-      <aside class="hero__figure" aria-label="Ilustração de abertura">
-        <div class="panel hero__figure-panel">
-   
+      <aside class="hero__figure" aria-label="Ilustração editorial de abertura">
+        <div class="panel hero__figure-panel" data-motion-depth="15" data-motion-x="0.92" data-motion-y="0.78">
           <Image
             src={heroSketch}
-            alt="Esboço editorial de abertura, traço em preto e branco, estilo mangá"
+            alt="Esboço editorial em preto e branco de um personagem em pose introspectiva"
             width={450}
             height={450}
             loading="eager"
@@ -54,12 +54,20 @@ import { Image } from "astro:assets";
           />
         </div>
 
-        <div class="panel hero__note">
-          <p class="hero__note-label">Nota Editorial</p>
-          <p class="hero__note-question jp">
-            Você também sente isso?
+        <div class="hero__figure-meta">
+          <p data-motion-depth="2" data-motion-x="-0.65" data-motion-y="0.4">
+            Fig. 01
+            <span class="jp">裂けたスケッチ</span>
           </p>
-          <span class="hero__note-arrow" aria-hidden="true">→</span>
+          <p data-motion-depth="2" data-motion-x="0.65" data-motion-y="-0.4">Mais do que códigos,<br />experiências.</p>
+        </div>
+
+        <div class="panel hero__note">
+          <span data-motion-depth="2" data-motion-x="-0.62" data-motion-y="0.4">
+            <span class="hero__note-label">Nota Editorial</span>
+            <span class="hero__note-question jp">あなたも私のこと愛してる?</span>
+          </span>
+          <span class="hero__note-arrow" data-motion-depth="3" data-motion-x="0.7" data-motion-y="-0.5" aria-hidden="true">→</span>
         </div>
       </aside>
     </div>
@@ -69,57 +77,95 @@ import { Image } from "astro:assets";
 <style>
   .hero {
     position: relative;
-    padding-block: var(--space-6) var(--space-7);
+    min-height: calc(100svh - var(--header-height));
+    padding-block: clamp(2rem, 5vw, 4.5rem);
     border-bottom: var(--border-hairline);
+    display: grid;
+    align-items: center;
+    overflow: clip;
   }
 
   .hero__margin {
     display: none;
     position: absolute;
-    left: var(--space-4);
-    top: var(--space-6);
-    bottom: var(--space-6);
-    height: auto;
+    left: clamp(0.75rem, 2vw, 1.75rem);
+    top: 8%;
+    height: 84%;
+    justify-content: space-between;
+  }
+
+  .hero__margin::before,
+  .hero__margin::after {
+    content: "";
+    width: 1px;
+    height: 18%;
+    background: var(--hairline);
+  }
+
+  .hero__index {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--grid-margin);
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
   }
 
   .hero__top {
-    padding-bottom: var(--space-5);
+    width: min(18rem, 100%);
+    padding-bottom: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .hero__top::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: var(--space-2);
+    background: var(--hairline);
   }
 
   .hero__grid {
-    align-items: start;
+    align-items: stretch;
   }
 
   .hero__main {
     grid-column: 1 / -1;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
   }
 
   .hero__title {
-    font-size: var(--step-h1);
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
+    font-size: clamp(3.25rem, 12vw, 7.75rem);
+    line-height: 0.82;
+    letter-spacing: -0.055em;
   }
 
   .hero__title-jp {
-    font-size: var(--step-lead);
+    font-size: clamp(0.8rem, 2.4vw, 1.2rem);
+    font-weight: 400;
     text-transform: none;
     letter-spacing: 0.08em;
     color: var(--ink-soft);
   }
 
   .hero__quote {
-    margin-top: var(--space-8);
-    max-width: 26ch;
-    font-family: var(--font-body);
-    font-size: var(--step-lead);
+    margin-top: clamp(2rem, 7vw, 5.5rem);
+    max-width: 34ch;
+    font-family: var(--font-mono);
+    font-size: clamp(0.72rem, 1.4vw, 0.9rem);
     font-style: italic;
-    line-height: 1.35;
-    color: var(--ink);
+    line-height: 1.6;
+    color: var(--ink-soft);
   }
 
   .hero__footer-row {
-    margin-top: var(--space-8);
+    margin-top: auto;
+    padding-top: clamp(2rem, 6vw, 5rem);
     display: flex;
     align-items: center;
     gap: var(--space-3);
@@ -127,7 +173,7 @@ import { Image } from "astro:assets";
 
   .hero__page-number {
     font-family: var(--font-mono);
-    font-size: var(--step-h3);
+    font-size: clamp(1.25rem, 3vw, 2.2rem);
     line-height: 1;
   }
 
@@ -137,108 +183,114 @@ import { Image } from "astro:assets";
     background: var(--hairline);
   }
 
+  .hero__cross {
+    font-family: var(--font-mono);
+    font-size: 1.4rem;
+  }
+
   .hero__figure {
     grid-column: 1 / -1;
     margin-top: var(--space-6);
     display: grid;
-    gap: var(--space-3);
+    align-content: start;
+    gap: var(--space-2);
   }
 
   .hero__figure-panel {
     overflow: hidden;
+    background: var(--paper-2);
   }
 
   .hero__figure-panel :global(img) {
+    display: block;
     width: 100%;
-    height: auto;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    scale: 1.035;
   }
 
-  .hero__figure-caption {
-    border-right: var(--border-hairline);
-    padding: var(--space-2) var(--space-3);
+  .hero__figure-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: var(--border-hairline);
+    border-top: 0;
+    margin-top: calc(var(--space-2) * -1);
     font-family: var(--font-mono);
-    font-size: var(--step-caption);
-    letter-spacing: 0.04em;
-    justify-self: left;
-    align-self: center;
+    font-size: 0.62rem;
+    line-height: 1.25;
   }
 
-  .hero__figure-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-3);
+  .hero__figure-meta p {
+    padding: var(--space-2);
   }
 
-  .hero__figure-fig {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
+  .hero__figure-meta p + p {
+    border-left: var(--border-hairline);
+    text-align: center;
   }
 
-  .hero__figure-fig-jp {
-    font-size: var(--step-caption);
+  .hero__figure-meta span {
+    display: block;
     color: var(--ink-soft);
   }
 
-  .hero__figure-tagline {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: var(--step-h3);
-    text-align: right;
-    line-height: 0.95;
-    text-transform: uppercase;
-  }
-
   .hero__note {
-    padding: var(--space-3);
+    min-height: 3rem;
+    padding: var(--space-2) var(--space-3);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
   }
 
-  .hero__note-label {
-    font-family: var(--font-mono);
-    font-size: var(--step-caption);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+  .hero__note > span:first-child {
+    display: grid;
+    gap: 0.15rem;
   }
 
+  .hero__note-label,
   .hero__note-question {
-    font-size: var(--step-caption);
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.03em;
+  }
+
+  .hero__note-label {
+    color: var(--ink-soft);
   }
 
   .hero__note-arrow {
     font-family: var(--font-mono);
-    font-size: var(--step-h3);
+    font-size: 1.25rem;
     line-height: 1;
-  }
-
-  .hero_linha {
-    background-color: var(--ink-soft);
-    height: 90vh;
-    width: 1px;
-    position: absolute;
-    left: 6rem;
-    top: var(--space-6);
   }
 
   @media (min-width: 900px) {
     .hero__margin {
-      display: block;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .hero__index {
+      display: none;
     }
 
     .hero__main {
       grid-column: 1 / 8;
+      padding-right: var(--space-4);
     }
 
     .hero__figure {
-      grid-column: 8 / -1;
+      grid-column: 9 / -1;
       margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hero__shell {
+      padding-left: max(var(--grid-margin), 4.5rem);
     }
   }
 </style>

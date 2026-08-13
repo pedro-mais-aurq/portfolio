@@ -4,9 +4,13 @@ import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/layout/Header.astro";
 import Epilogo from "../../components/sections/Epilogo.astro";
+import ProjectPreview from "../../components/ui/ProjectPreview.astro";
+import { siteUrl } from "../../utils/urls";
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+  const projects = (await getCollection("projects")).filter(
+    (project) => project.data.status === "completed",
+  );
   return projects.map((project) => ({
     params: { slug: project.id },
     props: { project },
@@ -14,38 +18,111 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { title, volume, summary, role, year, accentColor, cover, coverAlt } =
-  project.data;
+const {
+  title,
+  volume,
+  summary,
+  role,
+  year,
+  accentColor,
+  cover,
+  coverAlt,
+  url,
+  previewMode,
+  previewImage,
+} = project.data;
 const { Content } = await render(project);
 ---
 
-<BaseLayout
-  title={`${title} — Pedro Neres`}
-  description={summary}
->
+<BaseLayout title={title + " — Pedro Neres"} description={summary}>
   <Header />
   <main id="conteudo">
-    <article class="case" style={`--accent:${accentColor}`}>
-      <div class="grid-shell case__header">
-        <p class="chapter-label">
+    <article class="case" style={"--accent:" + accentColor}>
+      <header class="grid-shell case__header">
+        <p
+          class="chapter-label"
+          data-motion-depth="2"
+          data-motion-x="-0.7"
+          data-motion-y="0.45"
+        >
           <span>Volume {volume}</span>
-          <span><a href="/#projetos">← Voltar aos projetos</a></span>
+          <span><a href={siteUrl("", "projetos")}>← Voltar aos projetos</a></span>
         </p>
-        <h1 class="case__title">{title}</h1>
-        <p class="case__summary">{summary}</p>
-        <ul class="case__meta" role="list">
-          <li>{year}</li>
-          {role.map((r: string) => <li>{r}</li>)}
-        </ul>
-      </div>
 
-      <div class="case__cover">
-        <Image src={cover} alt={coverAlt} width={1400} height={900} loading="eager" fetchpriority="high" />
-      </div>
+        <div class="case__header-grid">
+          <div class="case__intro">
+            <h1
+              class="case__title"
+              data-motion-depth="5"
+              data-motion-x="0.8"
+              data-motion-y="0.55"
+            >
+              {title}
+            </h1>
+            <p
+              class="case__summary"
+              data-motion-depth="3"
+              data-motion-x="-0.65"
+              data-motion-y="0.5"
+            >
+              {summary}
+            </p>
+            <ul class="case__meta" role="list">
+              {year && <li data-motion-depth="2" data-motion-x="0.6" data-motion-y="-0.4">{year}</li>}
+              {role.map((r: string, index: number) => (
+                <li
+                  data-motion-depth="2"
+                  data-motion-x={index % 2 === 0 ? -0.6 : 0.6}
+                  data-motion-y="0.4"
+                >
+                  {r}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-      <div class="grid-shell case__body">
-        <Content />
-      </div>
+          <figure
+            class="case__cover"
+            data-motion-depth="15"
+            data-motion-x="0.9"
+            data-motion-y="0.75"
+          >
+            <Image
+              src={cover}
+              alt={coverAlt}
+              width={720}
+              loading="eager"
+              fetchpriority="high"
+            />
+            <figcaption>Cover / Volume {volume}</figcaption>
+          </figure>
+        </div>
+      </header>
+
+      <ProjectPreview
+        title={title}
+        volume={volume}
+        url={url}
+        previewMode={previewMode}
+        previewImage={previewImage}
+      />
+
+      <section class="case__study" aria-labelledby={"case-study-" + volume}>
+        <div
+          class="grid-shell case__body"
+          data-motion-depth="2"
+          data-motion-x="-0.55"
+          data-motion-y="0.4"
+        >
+          <p class="case__body-label" id={"case-study-" + volume}>
+            <span>03</span>
+            <span>Case study</span>
+          </p>
+          <div class="case__prose">
+            <Content />
+          </div>
+        </div>
+      </section>
     </article>
   </main>
   <Epilogo />
@@ -53,23 +130,34 @@ const { Content } = await render(project);
 
 <style>
   .case__header {
-    padding-block: var(--space-6) var(--space-5);
+    padding-block: clamp(3rem, 7vw, 6rem);
   }
 
   .case__header .chapter-label {
     justify-content: space-between;
-    display: flex;
   }
 
   .case__header .chapter-label a {
     color: var(--ink-soft);
     text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .case__header-grid {
+    margin-top: clamp(2rem, 6vw, 5rem);
+    display: grid;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: end;
+  }
+
+  .case__intro {
+    min-width: 0;
   }
 
   .case__title {
-    margin-top: var(--space-4);
     font-size: var(--step-h1);
     color: var(--accent, var(--ink));
+    text-wrap: balance;
   }
 
   .case__summary {
@@ -81,7 +169,8 @@ const { Content } = await render(project);
   .case__meta {
     margin-top: var(--space-4);
     display: flex;
-    gap: var(--space-3);
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
     font-family: var(--font-mono);
     font-size: var(--step-caption);
     text-transform: uppercase;
@@ -89,18 +178,100 @@ const { Content } = await render(project);
     color: var(--ink-soft);
   }
 
+  .case__meta li:not(:last-child)::after {
+    content: "·";
+    margin-left: var(--space-3);
+    color: var(--hairline);
+  }
+
   .case__cover {
-    border-block: var(--border-hairline);
+    width: min(72vw, 21rem);
+    justify-self: start;
+    border: var(--border-hairline);
+    background: var(--paper-deep);
   }
 
   .case__cover :global(img) {
+    display: block;
     width: 100%;
     height: auto;
   }
 
+  .case__cover figcaption {
+    padding: var(--space-2);
+    border-top: var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .case__study {
+    padding-block: clamp(3rem, 8vw, 7rem);
+  }
+
   .case__body {
-    padding-block: var(--space-6);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .case__body-label {
+    display: flex;
+    gap: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: var(--step-caption);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .case__prose {
     max-width: 68ch;
     line-height: 1.7;
+  }
+
+  .case__prose :global(h2) {
+    margin-block: 0 var(--space-4);
+    font-size: var(--step-h3);
+  }
+
+  .case__prose :global(p + p),
+  .case__prose :global(h2:not(:first-child)) {
+    margin-top: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .case__header-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(13rem, 18rem);
+    }
+
+    .case__cover {
+      width: 100%;
+      justify-self: end;
+    }
+
+    .case__body {
+      grid-template-columns: minmax(8rem, 2fr) minmax(0, 68ch) 2fr;
+      gap: var(--grid-gutter);
+    }
+
+    .case__body-label {
+      align-self: start;
+      margin-right: var(--space-5);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .case__header .chapter-label {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .case__meta li:not(:last-child)::after {
+      margin-left: var(--space-2);
+    }
   }
 </style>

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "volume": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "client": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "role": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "year": {
+      "type": "string"
+    },
+    "accentColor": {
+      "type": "string"
+    },
+    "cover": {
+      "type": "string"
+    },
+    "coverAlt": {
+      "type": "string"
+    },
+    "featured": {
+      "default": false,
+      "type": "boolean"
+    },
+    "status": {
+      "default": "completed",
+      "type": "string",
+      "enum": [
+        "completed",
+        "preview"
+      ]
+    },
+    "order": {
+      "type": "number"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "previewMode": {
+      "type": "string",
+      "enum": [
+        "live",
+        "image"
+      ]
+    },
+    "previewImage": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "volume",
+    "title",
+    "summary",
+    "accentColor",
+    "cover",
+    "coverAlt",
+    "order"
+  ]
+}

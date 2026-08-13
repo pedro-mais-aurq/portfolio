@@ -5,106 +5,86 @@ import { Image } from "astro:assets";
 
 <section id="sobre" class="sobre" aria-labelledby="sobre-title">
   <div class="grid-shell">
-    <div class="panel sobre__header-band">
-      <p class="chapter-label">
-        <span>CHAPTER #01</span>
-      </p>
-      <h2 id="sobre-title" class="sobre__title">Sobre</h2>
-      <span class="sobre__title-jp jp">戻ってきて、猫ちゃん？</span>
-    </div>
+    <header class="section-heading panel">
+      <span>
+        <span class="chapter-label" data-motion-depth="2" data-motion-x="-0.7" data-motion-y="0.45">CHAPTER 01</span>
+        <h2 id="sobre-title" class="section-heading__title" data-motion-depth="5" data-motion-x="0.8" data-motion-y="0.55">Sobre</h2>
+        <span class="section-heading__jp jp" data-motion-depth="2" data-motion-x="-0.65" data-motion-y="0.4">戻ってきて、猫ちゃん？</span>
+      </span>
+      <span class="section-heading__mark" data-motion-depth="3" aria-hidden="true"></span>
+    </header>
 
     <div class="sobre__grid grid">
       <div class="sobre__text">
-        <p class="sobre__lead">
+        <p class="sobre__lead" data-motion-depth="3" data-motion-x="-0.65" data-motion-y="0.48">
           Técnico em Informática e Designer Gráfico, atuo na criação de
           interfaces e experiências digitais, combinando design visual,
           usabilidade e desenvolvimento front-end para transformar ideias em
           produtos digitais memoráveis.
         </p>
 
-        <div class="sobre__quote-row">
-          <span class="sobre__rule" aria-hidden="true"></span>
-        </div>
-
-        <p class="sobre__quote jp">「アンドロメダで会おう。」</p>
-        <p class="sobre__quote-caption">Você vai carregar este peso.</p>
+        <span class="sobre__rule" aria-hidden="true"></span>
+        <p class="sobre__quote jp" data-motion-depth="3" data-motion-x="0.68" data-motion-y="-0.48">「アンドロメダで会おう。」</p>
+        <p class="sobre__quote-caption" data-motion-depth="1.5" data-motion-x="-0.6" data-motion-y="0.38">Você vai carregar este peso.</p>
       </div>
 
-      <div class="sobre__figure">
-        <div class="sobre__figure-frame">
+      <figure class="sobre__figure">
+        <div class="sobre__figure-frame" data-motion-depth="15" data-motion-x="0.9" data-motion-y="0.76">
           <Image
             src={sobreImg}
-            alt="Ilustração editorial de personagem em traço, acompanhando o texto de apresentação"
+            alt="Ilustração editorial em preto e branco de um personagem acompanhando a apresentação"
             width={750}
             height={987}
             loading="lazy"
           />
-          <div class="sobre__badge" aria-hidden="true">
+          <span class="sobre__badge" data-motion-depth="6" data-motion-x="-0.8" data-motion-y="0.6" aria-hidden="true">
             <span>THE</span>
             <span>STRONGEST</span>
-          </div>
+          </span>
         </div>
-      </div>
+      </figure>
     </div>
   </div>
 </section>
 
 <style>
   .sobre {
-    padding-block: var(--space-7);
+    padding-block: clamp(2.5rem, 7vw, 6.5rem);
     border-bottom: var(--border-hairline);
+    overflow: clip;
   }
 
-  .sobre__header-band {
-    padding: var(--space-4);
-
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  .sobre__title {
-    font-size: var(--step-h2);
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-  }
-
-  .sobre__title-jp {
-    font-size: var(--step-body);
-    text-transform: none;
-    color: var(--ink-soft);
-    letter-spacing: 0.04em;
+  .section-heading > span:first-child {
+    min-width: 0;
   }
 
   .sobre__grid {
-    margin-top: var(--space-5);
-    align-items: start;
+    margin-top: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
   }
 
   .sobre__text {
     grid-column: 1 / -1;
+    min-width: 0;
   }
 
   .sobre__lead {
-    font-size: var(--step-lead);
-    max-width: 46ch;
-    line-height: 1.5;
-  }
-
-  .sobre__quote-row {
-    margin-block: var(--space-5);
+    max-width: 43ch;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    line-height: 1.55;
+    text-wrap: pretty;
   }
 
   .sobre__rule {
     display: block;
-    width: 100%;
+    width: min(100%, 34rem);
     height: 1px;
+    margin-block: clamp(1.5rem, 4vw, 3rem) var(--space-3);
     background: var(--hairline);
   }
 
   .sobre__quote {
-    font-size: var(--step-h3);
+    font-size: clamp(1rem, 2.2vw, 1.45rem);
     line-height: 1.15;
   }
 
@@ -124,43 +104,43 @@ import { Image } from "astro:assets";
 
   .sobre__figure-frame {
     position: relative;
-    max-width: 420px;
+    width: min(100%, 25rem);
     margin-inline: auto;
+    border: var(--border-hairline);
+    background: var(--paper-2);
+    overflow: visible;
   }
 
   .sobre__figure-frame :global(img) {
+    display: block;
     width: 100%;
     height: auto;
+    scale: 1.015;
+    transform-origin: bottom center;
   }
 
   .sobre__badge {
     position: absolute;
-    top: var(--space-3);
-    right: -var(--space-2);
-    width: 6.5rem;
-    height: 6.5rem;
-    border-radius: 50%;
+    top: 8%;
+    right: clamp(-0.5rem, -2vw, -1.25rem);
+    width: clamp(5.25rem, 12vw, 7.5rem);
+    aspect-ratio: 1;
+    border-radius: 48% 52% 46% 54% / 54% 43% 57% 46%;
     border: 1px solid var(--ink);
-    background: var(--paper);
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family: var(--font-mono);
-    font-size: 0.62rem;
+    font-size: clamp(0.55rem, 1vw, 0.68rem);
     letter-spacing: 0.08em;
-    line-height: 1.4;
-    transform: rotate(-8deg);
+    line-height: 1.35;
+    rotate: -8deg;
   }
 
   @media (min-width: 900px) {
-    .sobre__header-band {
-      flex-direction: row;
-      align-items: baseline;
-      justify-content: space-between;
-    }
-
     .sobre__text {
       grid-column: 1 / 7;
     }
@@ -171,7 +151,7 @@ import { Image } from "astro:assets";
     }
 
     .sobre__figure-frame {
-      margin-inline: 0;
+      margin-inline: 0 0;
     }
   }
 </style>
