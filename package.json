@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
+    "ci": "npm run check && npm run build",
     "preview": "astro preview",
     "test:static": "node scripts/validate-build.mjs",
     "test": "npm run check && npm run build && npm run test:static",

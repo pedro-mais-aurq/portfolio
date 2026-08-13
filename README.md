@@ -25,6 +25,18 @@ npm run preview
 
 O projeto é publicado com `base: "/portfolio"`. Links internos, favicon, rotas dos cases e arquivo já respeitam esse prefixo.
 
+## Deploy no GitHub Pages
+
+O workflow `.github/workflows/deploy.yml` valida e publica o projeto automaticamente a cada `push` na branch `main`. Ele também pode ser executado manualmente pela aba **Actions** do GitHub.
+
+Antes do primeiro deploy, abra **Settings > Pages** no repositório e selecione **GitHub Actions** em **Source**. O endereço esperado é:
+
+```text
+https://pedro-mais-aurq.github.io/portfolio/
+```
+
+O workflow executa `npm run ci`, que reúne a checagem do Astro e o build de produção antes de liberar a publicação.
+
 ## Estrutura principal
 
 - `src/components/sections/`: blocos editoriais da home.
