@@ -4,7 +4,7 @@ title: "Francino Coifas"
 summary: "Identidade e site institucional para marca de coifas e acabamentos, com tipografia monogramada e paleta minimalista."
 role: ["Web Design", "Direção de Arte"]
 year: "2026"
-accentColor: "#1c1810"
+accentColor: "#083e4e"
 cover: "../../assets/projects/francino-coifas.jpeg"
 coverAlt: "Capa provisória do projeto Francino Coifas — placeholder, substituir pela capa real"
 featured: true
@@ -15,6 +15,6 @@ url: "https://francinocalhas.com.br/"
 previewMode: "live"
 ---
 
-<!-- Conteúdo de case a ser preenchido pelo cliente. -->
+<!-- Conteúdo de case  -->
 
-Projeto em construção. Substituir por texto real do case.
+Projeto voltado para fábrica de coifas, rufos, calhas, etc.
